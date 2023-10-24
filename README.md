@@ -4,6 +4,6 @@ this is my laravel blog that i have created during my learning the framework, an
 
 
 
-## در باره این پروژه
+## درباره این پروژه
 
 این لاراول بلاگ من هست که در آموزش های لاراولم درست کردم، اینجا آپلودش کردم جهت رزومه
