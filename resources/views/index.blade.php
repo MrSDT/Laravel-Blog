@@ -10,7 +10,7 @@
         <div class="card mb-4">
             <a href="{{ route('blog.show', ['blogPost' => $latestPost->id]) }}"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
             <div class="card-body">
-                <div class="small text-muted">{{ $latestPost->created_at }}</div>
+                <div class="small text-muted">{{ $latestPost->created_at }} by {{ $latestPost->author->name }}</div>
                 <h2 class="card-title">{{ ucfirst($latestPost->title) }}</h2>
                 <p class="card-text">{{ Str::limit($latestPost->body, 100) }}</p>
                 <a class="btn btn-primary" href="{{ route('blog.show', ['blogPost' => $latestPost->id]) }}">Read more →</a>
@@ -27,7 +27,7 @@
                     <div class="card mb-4">
                         <a href="{{ route('blog.show', ['blogPost' => $post->id]) }}"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
                         <div class="card-body">
-                            <div class="small text-muted">{{ $post->created_at }}</div>
+                            <div class="small text-muted">{{ $post->created_at }} by {{ $post->author->name }}</div>
                             <h2 class="card-title h4" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 2.4em;">{{ ucfirst($post->title) }}</h2>
                             <p class="card-text">{{ Str::limit($post->body, 100) }}</p>
                             <a class="btn btn-primary" href="{{ route('blog.show', ['blogPost' => $post->id]) }}">Read more →</a>

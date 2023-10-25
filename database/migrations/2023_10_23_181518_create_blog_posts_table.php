@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->text('title');
             $table->text('body');
-            $table->text('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+        });
+        Schema::table('blog_posts', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -29,6 +29,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
+
         return view('blog.create');
     }
 
@@ -37,13 +38,30 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
-        $newPost = BlogPost::create([
-            'title' => $request->title,
-            'body' => $request->body,
-            'user_id' => 1,
+        // Validate the request data (title, body, etc.) as usual
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+            // Add validation rules for other fields
         ]);
-        return redirect('blog/'. $newPost->id)->with('success','Your Post Has Been Created');
+
+        // Create a new blog post
+        $blogPost = new BlogPost;
+        $blogPost->title = $validatedData['title'];
+        $blogPost->body = $validatedData['body'];
+        // Set other fields as needed
+
+        // Save the blog post
+        $blogPost->save();
+
+        // Attach the selected tags to the blog post
+        if ($request->tags) {
+            $blogPost->tags()->attach($request->tags); // Assuming you have defined a tags relationship in your BlogPost model
+        }
+
+        // Redirect to a success page or return a response
     }
+
 
     /**
      * Display the specified resource.
