@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
 
-Route::get('/blog', [\App\Http\Controllers\BlogPostController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\BlogPostController::class, 'index']);
 
-Route::get('/blog/{blogPost}', [\App\Http\Controllers\BlogPostController::class, 'show']);
+Route::get('/blog/{blogPost}', [\App\Http\Controllers\BlogPostController::class, 'show'])->name('blog.show');
 
 Route::get('/blog/create/post', [\App\Http\Controllers\BlogPostController::class, 'create']);
 

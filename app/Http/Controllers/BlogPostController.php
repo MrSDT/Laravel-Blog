@@ -12,18 +12,24 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::all();
-        return view('blog.blogposts', [
-            'posts' => $posts,
-        ]);
+        // Retrieve the latest post
+        $latestPost = BlogPost::latest()->first();
+
+        // Retrieve all posts except the latest one
+        $posts = BlogPost::where('id', '!=', $latestPost->id)->latest()->get();
+
+        $posts = BlogPost::latest()->paginate(7); // Replace 5 with the number of items per page you want to display.
+
+        return view('index', compact('latestPost', 'posts'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('blog.create');
     }
 
     /**
@@ -31,7 +37,12 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newPost = BlogPost::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'user_id' => 1,
+        ]);
+        return redirect('blog/'. $newPost->id)->with('success','Your Post Has Been Created');
     }
 
     /**
@@ -49,7 +60,9 @@ class BlogPostController extends Controller
      */
     public function edit(BlogPost $blogPost)
     {
-        //
+        return view('blog.edit', [
+            'post'=> $blogPost,
+        ]);
     }
 
     /**
@@ -57,7 +70,12 @@ class BlogPostController extends Controller
      */
     public function update(Request $request, BlogPost $blogPost)
     {
-        //
+        $blogPost->update([
+            'title' => $request->title,
+            'body' => $request->body
+        ]);
+
+        return redirect('blog/' . $blogPost->id);
     }
 
     /**
@@ -65,6 +83,7 @@ class BlogPostController extends Controller
      */
     public function destroy(BlogPost $blogPost)
     {
-        //
+        $blogPost->delete();
+        return redirect('/blog')->with('success','Post Removed');
     }
 }
