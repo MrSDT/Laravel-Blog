@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,5 +32,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::resource('dashboard', 'App\Http\Controllers\Admin\AdminDashboardController');
+    Route::resource('users', 'App\Http\Controllers\Admin\UserController');
+
+});
+Route::delete('admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy']);
+
+//Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
 
