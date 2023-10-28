@@ -34,10 +34,23 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
     Route::resource('dashboard', 'App\Http\Controllers\Admin\AdminDashboardController');
-    Route::resource('users', 'App\Http\Controllers\Admin\UserController');
-
+    Route::resource('users', 'App\Http\Controllers\Admin\UserController')->except('show');
 });
-Route::delete('admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy']);
+Route::delete('/admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
 
-//Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
+Route::get('/users/restore/{user}', [App\Http\Controllers\Admin\UserController::class, 'restoreUser'])->name('users.restore');
+
+Route::get('/admin/users/trashed', [App\Http\Controllers\Admin\UserController::class, 'trashedUsers'])->name('users.trashed');
+
+Route::get('/admin/user/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('users.create');
+
+Route::post('/admin/user/create', [App\Http\Controllers\Admin\UserController::class, 'store']);
+
+Route::get('/admin/users/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
+
+Route::put('/admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+
+
+
+
 

@@ -6,24 +6,32 @@
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
-                <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                <img class="rounded-circle" src="{{asset('admin/img/user.jpg')}}" alt="" style="width: 40px; height: 40px;">
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
             <div class="ms-3">
 
-                <h6 class="mb-0">{{$user->name}}</h6>
+                <h6 class="mb-0">{{ $currentUser->name }}</h6>
+                <span>
+                    @if ($currentUser->roles->count() > 0)
+                        {{ ucfirst($currentUser->roles->first()->name) }}
+                    @else
+                        No Roles Assigned
+                    @endif
+                </span>
 
-                <span>{{ ucfirst($user->roles->first()->name) }}</span>
+
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="{{ route('admin.dashboard.index') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="{{ route('dashboard.index') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>User Manager</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="{{ route('users.index') }}" class="dropdown-item">Users</a>
-                    <a href="typography.html" class="dropdown-item">Typography</a>
-                    <a href="element.html" class="dropdown-item">Other Elements</a>
+                    <a href="{{route('users.create')}}" class="dropdown-item">Create User</a>
+                    <a href="{{ route('users.trashed') }}" class="dropdown-item">Restore User</a>
+{{--                    <a href="{{ route('users.edit') }}" class="dropdown-item">Edit User</a>--}}
                 </div>
             </div>
             <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
